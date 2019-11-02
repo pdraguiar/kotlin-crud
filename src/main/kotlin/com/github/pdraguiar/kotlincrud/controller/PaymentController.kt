@@ -36,5 +36,5 @@ class PaymentController(private val paymentService: PaymentService) {
     }
 
     @DeleteMapping("/{id}")
-    fun delete(id: String): PaymentDTO = paymentService.delete(id).asDTO()
+    fun delete(@PathVariable id: String): PaymentDTO = paymentService.delete(id).asDTO()
 }
