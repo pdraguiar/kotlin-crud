@@ -13,6 +13,7 @@ import java.time.LocalDateTime
 data class Payment(var description: String,
                    var amount: BigDecimal,
                    var expiresAt: LocalDate,
+                   var recipient: Recipient,
                    @Id var id: String? = null,
                    var paidAt: LocalDateTime? = null,
                    @Version var version: Long? = null,

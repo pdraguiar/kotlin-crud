@@ -2,6 +2,7 @@ package com.github.pdraguiar.kotlincrud.model.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.github.pdraguiar.kotlincrud.model.Recipient
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,5 +14,6 @@ import javax.validation.constraints.NotNull
 data class PaymentDTO(@field:NotEmpty val description: String,
                       @field:NotNull val amount: BigDecimal,
                       @field:NotNull val expiresAt: LocalDate,
+                      @field:NotNull val recipient: RecipientDTO,
                       val id: String? = null,
                       val paidAt: LocalDateTime? = null)

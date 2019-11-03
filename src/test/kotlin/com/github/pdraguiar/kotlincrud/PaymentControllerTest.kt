@@ -2,8 +2,10 @@ package com.github.pdraguiar.kotlincrud
 
 import com.github.pdraguiar.kotlincrud.extension.asDTO
 import com.github.pdraguiar.kotlincrud.model.Payment
+import com.github.pdraguiar.kotlincrud.model.Recipient
 import com.github.pdraguiar.kotlincrud.model.dto.PaymentDTO
 import com.github.pdraguiar.kotlincrud.model.dto.PaymentListDTO
+import com.github.pdraguiar.kotlincrud.model.dto.RecipientDTO
 import com.github.pdraguiar.kotlincrud.repository.PaymentRepository
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
@@ -40,6 +42,7 @@ class PaymentControllerTest(@Autowired val restTemplate: TestRestTemplate) {
         payment = Payment(description = "some description",
                 amount = BigDecimal(100.00),
                 expiresAt = LocalDate.parse("2019-10-30"),
+                recipient = Recipient(1, "A Recipient inc."),
                 id = UUID.randomUUID().toString(),
                 paidAt = LocalDate.parse("2019-10-30").atStartOfDay())
 
@@ -48,6 +51,7 @@ class PaymentControllerTest(@Autowired val restTemplate: TestRestTemplate) {
                 Payment(description = "some description $i",
                         amount = BigDecimal((i + 59.90) * 10),
                         expiresAt = LocalDate.now().plusDays(i.toLong()),
+                        recipient = Recipient(i, "A Recipient $i inc."),
                         id = UUID.randomUUID().toString(),
                         paidAt = LocalDate.now().plusDays(i.toLong()).atStartOfDay()))
         }
@@ -57,6 +61,7 @@ class PaymentControllerTest(@Autowired val restTemplate: TestRestTemplate) {
         paymentWithInvalidAMount = PaymentDTO(description = "a description",
                 amount = BigDecimal(-1),
                 expiresAt = LocalDate.parse("2019-10-05"),
+                recipient = RecipientDTO(1, "A Recipient inc."),
                 id = UUID.randomUUID().toString(),
                 paidAt = LocalDate.parse("2019-10-31").atStartOfDay())
     }
