@@ -5,6 +5,8 @@ import com.github.pdraguiar.kotlincrud.extension.isValid
 import com.github.pdraguiar.kotlincrud.extension.updateWith
 import com.github.pdraguiar.kotlincrud.model.Payment
 import com.github.pdraguiar.kotlincrud.repository.PaymentRepository
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -12,7 +14,12 @@ import java.util.*
 
 @Service
 class PaymentService(private val paymentRepository: PaymentRepository) {
-    fun findAll(): MutableList<Payment> = paymentRepository.findAll()
+    fun find(page: Int, size: Int, sort: String): MutableList<Payment> {
+        if (page < 0) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.NUMBER_IS_NEGATIVE.format("page"))
+        if (size < 1) throw ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessages.NUMBER_IS_NOT_POSITIVE.format("size"))
+
+        return paymentRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, sort))).content
+    }
 
     fun countAll(): Long = paymentRepository.count()
 

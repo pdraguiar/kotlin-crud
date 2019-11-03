@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.*
 class PaymentController(private val paymentService: PaymentService) {
 
     @GetMapping
-    fun findAll(): ListDTO<PaymentDTO> {
-        val payments: List<PaymentDTO> = paymentService.findAll().map { p -> p.asDTO() }
+    fun find(@RequestParam(defaultValue = "0") page: Int,
+            @RequestParam(defaultValue = "10") size: Int,
+            @RequestParam(defaultValue = "expiresAt") sort: String): ListDTO<PaymentDTO> {
+
+        val payments: List<PaymentDTO>
+                = paymentService.find(page, size, sort).map { p -> p.asDTO() }
         val total: Long = paymentService.countAll()
 
         return PaymentListDTO(payments, total)
